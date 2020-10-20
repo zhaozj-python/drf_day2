@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模拟购物车</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <form action="">
+        <table style="border: solid black 2px">
+            <tr style="border: solid black 2px">
+                <td style="width: 202px;">商品</td>
+                <td style="width: 188px;">单价</td>
+                <td style="width: 138px;">数量</td>
+                <td style="width: 213px;">小计</td>
+                <td style="width: 134px;">操作</td>
+
+            </tr>
+            <tr style="border: solid black 2px" v-if="is_show">
+                <td style="width: 202px;">方便面</td>
+                <td style="width: 188px;">{{number}}</td>
+                <td style="width: 138px;">
+                    <input type="button" value="-" @click="dis_count(this)">
+                    <input type="text" v-model="num" style="width: 30px" @blur="change_count(this)">
+                    <input type="button" value="+" @click="add_count()">
+                </td>
+                <td style="width: 213px;">{{number * num}}</td>
+                <td style="width: 134px;"><a href="javascript:;" @click="del(this)">删除</a></td>
+
+            </tr>
+            <tr style="border: solid black 2px" v-else>
+                <td>购物车空空如也</td>
+            </tr>
+
+        </table>
+    </form>
+
+</div>
+
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            num: 1,
+            number: 12,
+            is_show: true
+        },
+        methods: {
+            dis_count(th) {
+                if (this.num === 0) {
+                    th.disabled = 1
+                } else {
+                    this.num--;
+                }
+            },
+            change_count(th) {
+                if (isNaN(this.num) || this.num < 0) {
+                    alert("输入有误");
+                    this.num = 1;
+                }
+            },
+            add_count() {
+                console.log(event);  // 没有参数传递可以使用event,如果有参数传递,event也需要传递
+                this.num++;
+            },
+            del(th) {
+                // th.parentNode.parentNode.remove();
+                this.num = 0;
+                this.is_show = false
+            }
+
+        }
+        // 未解决问题: 如何对v-model的文本框添加约束
+    })
+</script>
+
+</body>
+</html>

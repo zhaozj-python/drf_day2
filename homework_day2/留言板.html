@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+
+<form action="">
+
+    <div style="border: solid red 2px; width: 500px">
+        <h1 style="text-align: center">百知留言板</h1>
+        <div id="app">
+            <input type="text" v-model="msg" style="margin-left: 5px">
+            <input type="button" value="发表留言" @click="add_note" >
+            <div v-if="is_show">
+                <h2>当前留言板空空如也,赶紧来抢沙发吧</h2>
+            </div>
+            <div v-else>
+                <ol>
+                    <li v-for="(note, index) in notebook" :key="index">
+                        <span>{{note}}</span> <a href="javascript:;" @click="delNote(index)">删除</a>
+                    </li>
+                </ol>
+
+                <span>&nbsp留言总数量：{{notebook.length}}条</span>
+                <br>
+                <input type="button" value="删除所有" @click="del_all" style="margin-left: 5px">
+            </div>
+
+        </div>
+    </div>
+</form>
+
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            notebook: [],
+            msg: "",
+            is_show: true
+
+        },
+        methods: {
+            // 添加留言
+            add_note() {
+
+                // 判断输入框是否有值  有值则添加
+                let msg = this.msg;
+                if (msg) {
+                    this.is_show = false;
+                    // 默认添加到留言板的末尾
+                    // this.notebook.push(this.msg);
+                    // 添加到留言板的首部
+                    this.notebook.unshift(this.msg);
+
+                    this.msg = "";
+                }
+            },
+
+            // 删除留言
+            delNote(index) {
+                console.log(index,this.notebook.length);
+                // 根据下标取删除某个元素
+                this.notebook.splice(index, 1);  // 参数1: 从哪个下标开始删除  参数2: 删除的元素个数
+                if (this.notebook.length == 0) {
+                    this.is_show = true
+                }
+
+            },
+            // 删除全部留言
+            del_all() {
+                this.is_show = true;
+                this.notebook = []
+            }
+
+        }
+    })
+</script>
+
+</body>
+</html>

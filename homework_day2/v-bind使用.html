@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-bind使用</title>
+    <script src="js/vue.js"></script>
+    <style>
+        .a {
+            border: 3px red solid;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <img :src="src" :title="title" :class="{a: showCss}">
+    <br>
+    <input type="button" value="改变图片的样式" @click="addCss">
+    <input type="button" value="切换图片" @click="changeImg">
+
+
+</div>
+
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            title: "相机",
+            showCss: false,
+            src: "2.fw.png"
+        },
+        methods: {
+            // 改变图片的样式
+            addCss() {
+                this.showCss = !this.showCss;
+            },
+            changeImg() {
+                if (this.src === "2.fw.png") {
+                    this.src = "1.fw.png"
+                } else {
+                    this.src = "2.fw.png"
+                }
+
+            },
+
+        }
+    })
+</script>
+
+</body>
+</html>

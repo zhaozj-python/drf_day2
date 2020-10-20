@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件绑定</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <h3>我今年{{age}}岁了</h3>
+    <hr>
+    <input type="button" value="你又老了" v-on:click="add_age">
+<!--    简化写法-->
+    <input type="button" value="返老还童" @click="dis_age(this)">
+
+</div>
+
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            age: 18
+
+        },
+        methods: {
+            add_age: function () {
+                this.age += 1;
+            },
+            dis_age(th){
+
+                if(this.age=== 1) {
+                    th.disabled = 1
+                }else {
+                    this.age -= 1;
+                }
+            }
+
+
+        }
+    })
+</script>
+
+</body>
+</html>

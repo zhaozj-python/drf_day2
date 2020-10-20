@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-show与v-if</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <h3 id="1" v-show="true">{{msg}}</h3>
+    <hr>
+    <h3 id="2" v-show="isShow" >{{msg}}</h3>
+    <input type="button" value="点击" @click="dian">
+    <hr>
+    <h3 v-if="isShow" id="3">{{msg1}}</h3>
+    <h3 v-else id=4 >触发v-else</h3>
+<!--    v-if: 有你无我,有我没你,v-if与v-else为互斥关系,在页面为false的直接不存在-->
+
+
+</div>
+
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            msg: "百知教育",
+            msg1: "v-if测试",
+            isShow: true,
+
+        },
+        methods: {
+            dian(){
+                this.isShow = !this.isShow    // 本质为添加了display:None
+            }
+
+        }
+    })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>data数据类型</title>
+</head>
+<script src="js/vue.js"></script>
+<body>
+
+<div id="app">
+    <p>用户名:{{user.username}}, 密码:{{user.password}}</p>
+    <ul v-for="(value,index) in arr">
+        <li style="list-style-type: none">{{index+1}}: {{value}}</li>
+    </ul>
+
+    <!--  遍历对象  -->
+
+    <ul v-for="(value, key, index) in user">
+        <li style="list-style-type: none">{{index}}: {{key}}: {{value}}</li>
+
+    </ul>
+    <hr>
+    <!-- 遍历数组中的对象   -->
+    <ol >
+        <li v-for="(value, index) in users" :key="index">{{index+1}}: {{value.username}}: {{value.password}}</li>
+    </ol>
+</div>
+
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            user: {
+                "username": "kuro", "password": "123456"
+            },    // 对象
+            arr: ["北京", "广州", "上海", "成都", "武汉", "芜湖"],
+            // 数组中包含对象
+            users: [{"username": "aka", 'password': "1515"}, {
+                "username": "hero",
+                password: "231123"
+            }, {"username": "aka", 'password': "1515"}]
+
+
+        },
+
+    })
+</script>
+
+</body>
+</html>
