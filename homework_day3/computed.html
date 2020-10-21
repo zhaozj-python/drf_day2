@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>computed</title>
+</head>
+<body>
+<div id="app">
+    <h1>数字为{{num}}</h1>
+    <span>十位数为{{parseInt(num / 10)}}</span>
+    <span>个位数为{{num % 10}}</span>
+    <input type="button" value="点击增加" @click="add_num">
+    <input type="button" value="点击减少" @click="minu_num">
+    <hr>
+    <input type="number" v-model="ten" max="9" min="0">
+    <input type="number" v-model="digit" max="9" min="0">
+    <p>结果为:{{result}}</p>
+
+</div>
+
+
+<script src="js/vue.js"></script>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            num: 56,
+            ten: "",
+            digit: "",
+
+        },
+        methods: {
+            minu_num() {
+                this.num -= 1;
+            },
+            add_num(){
+                this.num += 1;            }
+        },
+        computed: {
+            // 定义的方法属性, 不能在data中重复定义
+            result() {
+                return this.ten * 10 + +this.digit;
+            },
+        }
+
+    })
+</script>
+</body>
+</html>
+
+
+

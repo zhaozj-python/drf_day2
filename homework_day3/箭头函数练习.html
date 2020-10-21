@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>箭头函数练习</title>
+</head>
+<body>
+<div id="app">
+
+</div>
+
+
+<script src="js/vue.js"></script>
+<script>
+    function add(a, b) {
+        console.log(a + b)
+    }
+
+    add(4, 6);
+    let fun = function (a, b) {
+        console.log(a * b)
+    }
+    fun(5, 6);
+
+    let add2 = (a, b, c) => console.log(a + b + c);
+    add2(2, 5, 8);
+
+    let fun1 = function (a, b) {
+        console.log(a + b);
+        console.log(a * b);
+    };
+    fun1(4, 5);
+
+    let fun2 = (a, b) => {
+        console.log(a + b);
+        console.log(a * b);
+    };
+    fun2(5, 6)
+
+    let func1 = function (a, b) {
+        return a + b
+    }
+    console.log(func1(4, 5));
+
+    let func2 = (a, b) => a + b;
+    console.log(func2(10, 20));
+
+</script>
+</body>
+</html>

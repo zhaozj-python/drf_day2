@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>父传子</title>
+</head>
+<body>
+<div id="app">
+    <p style="font-size: 30px; color: red">
+        这是父组件,值为:{{data}}
+    </p>
+    <hr>
+    <son_key :data_son="data"></son_key>
+</div>
+
+
+<script src="js/vue.js"></script>
+<script>
+    let son ={
+        template:`
+        <div>
+        <p style="font-size: 60px; color: gray">这是子组件的data:{{data_son}}</p>
+
+</div>
+
+        `,
+        props:["data_son"]
+    }
+    new Vue({
+        el: "#app",
+        data: {
+            data: 34,
+        },
+        components:{
+            "son_key": son,
+        }
+
+    })
+</script>
+</body>
+</html>

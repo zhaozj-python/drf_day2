@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>子传父</title>
+</head>
+<body>
+<div id="app">
+    <p>这是父组件:{{num}}</p>
+    <hr>
+    <p>
+        <son @son="father1"></son>
+
+    </p>
+
+</div>
+
+
+<script src="js/vue.js"></script>
+<script>
+    let son1 = {
+        template: `
+        <div>
+        <p>
+        这是子组件 <input type="text" v-model="son1">
+</p>
+<input type="button" value="点我" @click="father">
+</div>
+        `,
+        data:{
+            son1 : ""
+        },
+        methods:{
+            father(){
+                this.$emit("son", this.son1)
+            }
+        }
+    }
+    new Vue({
+        el: "#app",
+        data: {
+            num: 34,
+        },
+        methods:{
+            father1(son){
+                this.num = son
+            }
+        },
+
+        components:{
+            son: son1,
+        }
+
+    })
+</script>
+</body>
+</html>

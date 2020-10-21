@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>局部组件</title>
+    <style>
+        .color_red{
+            color: red;
+            font-size: 30px;
+        }
+        .color_pink{
+            color: pink;
+            font-size: 130px
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <local css="color_red"></local>
+    <local css="color_pink"></local>
+    <hr>
+</div>
+<div>
+    <p>这是没有渲染Vue的div</p>
+    <local></local>
+</div>
+
+
+<script src="js/vue.js"></script>
+<script>
+    // 局部组件与全局组件的区别只在于局部组件的注册放入了Vue中
+    // 局部组件只在注册的Vue实例中生效
+    let local = {
+        template:`
+        <div>
+        <span :class="css">这是局部组件</span>
+</div>
+        `,
+        props:["css"]
+    }
+    new Vue({
+        el: "#app",
+        data: {
+            num: 34,
+        },
+        components: {
+            "local": local,
+        }
+
+    })
+</script>
+</body>
+</html>

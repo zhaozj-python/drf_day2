@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件应用</title>
+</head>
+<body>
+<div id="app">
+    <first></first>
+    <first></first>
+    <hr>
+    <span>这是Vue的值:{{data}}</span>
+    <input type="button" value="vue点我" @click="minu">
+
+</div>
+
+
+<script src="js/vue.js"></script>
+<script>
+    let ele_text = {
+        template:`
+        <div>
+        <p>年轻人的第一个组件</p>
+        <br>
+        <p>template下面不能存在两个同级标签(兄弟标签/两个div)</p>
+        <span> 演示data: {{data}}</span>
+        <input type="button" value="点我" @click="func">
+</div>
+        `,
+        data: function () {
+            return{
+                data: "kuro",
+            }
+        },
+        methods:{
+            func(){
+                alert("我被点了")
+            }
+        }
+    }
+    Vue.component("first", ele_text);
+    new Vue({
+        el: "#app",
+        data: {
+            data: 34,
+            shi: "",
+            ge: "",
+
+        },
+        methods:{
+            minu(){
+                this.data--
+            }
+        }
+
+
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>箭头函数特性</title>
+</head>
+<body>
+<div id="app">
+
+</div>
+
+
+<script src="js/vue.js"></script>
+<script>
+    // 在回调函数中this不再指向当前对象,会导致使用function找不到this对象
+    // 因此需要使用箭头函数,不会改变this的指向
+    // let test1 = {
+    //     username: "kuro",
+    //     func1: function () {   // function 不可删除
+    //         setTimeout(function () {
+    //             console.log(this.username)
+    //         })
+    //     }
+    // }
+    // test1.func1();
+    let test2 = {
+        username: "hero",
+        func2: function () {
+            setTimeout(() => {
+                    console.log(this.username);
+                }
+            )
+        }
+    }
+    test2.func2();
+</script>
+</body>
+</html>

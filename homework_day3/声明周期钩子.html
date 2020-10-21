@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>声明周期</title>
+</head>
+<body>
+<div id="app" style="border: solid red 2px; width: 200px">
+
+    <span id="span">{{number}}</span>
+    <input type="button" value="点我" @click="minu">
+
+</div>
+<script src="js/vue.js"></script>
+<script>
+    // 一共有8个钩子,分别为: 创建, 创建前, 数据挂载, 数据挂载之前, 数据修改, 数据修改之前, 销毁, 销毁之前
+    new Vue({
+        el: "#app",
+        data: {
+            number: 32,
+        },
+        methods: {
+            minu() {
+                this.number -= 1;
+            },
+        },
+        beforeCreate: function () {
+            console.log("beforeCreate: " + this.number);
+        },
+        created: function () {
+            console.log("create: " + this.number)
+        },
+        beforeMount() {
+            console.log("beforeMount: " + document.getElementById("span").innerText);
+        },
+        mounted() {
+            console.log("mounted: " + document.getElementById("span").innerText);
+        },
+        beforeUpdate() {
+            console.log("beforeUpdate: " + this.number);
+            console.log("beforeUpdate: " + document.getElementById("span").innerText)
+        },
+        updated() {
+            console.log("updated: " + this.number);
+            console.log("updated: " + document.getElementById("span").innerText)
+        },
+        beforeDestroy() {
+
+        },
+        destroyed() {
+        },
+    })
+</script>
+</body>
+</html>

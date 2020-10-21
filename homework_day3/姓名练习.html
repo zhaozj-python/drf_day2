@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>姓名</title>
+</head>
+<body>
+<div id="app">
+    <div style="border: solid red 2px; wight: 300px">
+        <p>姓氏: <input type="text" v-model="first_name"></p>
+        <p>名字: <input type="text" v-model="second_name"></p>
+        <p>全名为: {{fullName}}</p>
+
+    </div>
+    <div style="border: solid red 2px; wight: 300px">
+        <p>姓名: <input type="text" v-model="full_name"></p>
+        <p>姓氏: {{fst_name}}</p>
+        <p>名字: {{sec_name}}</p>
+
+    </div>
+
+</div>
+
+
+<script src="js/vue.js"></script>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            first_name: "",
+            second_name: "",
+            full_name: "",
+            fst_name: "",
+            sec_name: "",
+        },
+        computed: {
+            fullName() {
+                if (this.first_name.length <= 2) {
+                    return this.first_name + this.second_name
+                } else {
+                    alert("姓氏不符合规范")
+                }
+
+            }
+        },
+        watch: {
+            full_name() {
+                let name = this.full_name.split(",");
+                this.fst_name = name[0];
+                this.sec_name = name[1];
+            }
+        }
+
+
+    })
+</script>
+</body>
+</html>

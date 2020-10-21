@@ -18,16 +18,16 @@
                 <td style="width: 134px;">操作</td>
 
             </tr>
-            <tr style="border: solid black 2px" v-if="is_show">
-                <td style="width: 202px;">方便面</td>
-                <td style="width: 188px;">{{number}}</td>
+            <tr style="border: solid black 2px" v-if="is_show" v-for="(value, index) in things">
+                <td style="width: 202px;">{{value}}</td>
+                <td style="width: 188px;">{{number[index]}}</td>
                 <td style="width: 138px;">
-                    <input type="button" value="-" @click="dis_count(this)">
-                    <input type="text" v-model="num" style="width: 30px" @blur="change_count(this)">
-                    <input type="button" value="+" @click="add_count()">
+                    <input type="button" value="-" @click="dis_count(this, index)">
+                    <input type="text" v-model="num[index]" style="width: 30px" @blur="change_count(this, index)">
+                    <input type="button" value="+" @click="add_count(index)">
                 </td>
-                <td style="width: 213px;">{{number * num}}</td>
-                <td style="width: 134px;"><a href="javascript:;" @click="del(this)">删除</a></td>
+                <td style="width: 213px;">{{number[index] * num[index]}}</td>
+                <td style="width: 134px;"><a href="javascript:;" @click="del(this, index)">删除</a></td>
 
             </tr>
             <tr style="border: solid black 2px" v-else>
@@ -44,32 +44,34 @@
     new Vue({
         el: "#app",
         data: {
-            num: 1,
-            number: 12,
-            is_show: true
+            num: [1, 1, 1],
+            number: [4, 2, 1],
+            is_show: true,
+            things: ["方便面", "火腿", "鸡蛋"]
         },
         methods: {
-            dis_count(th) {
-                if (this.num === 0) {
+            dis_count(th, index) {
+                if (this.num[index] === 0) {
                     th.disabled = 1
                 } else {
-                    this.num--;
+                    this.num[index] -= 1;
                 }
             },
-            change_count(th) {
-                if (isNaN(this.num) || this.num < 0) {
+            change_count(index) {
+                if (isNaN(this.num[index]) || this.num[index] < 0) {
                     alert("输入有误");
-                    this.num = 1;
+                    this.num[index] = 1;
                 }
             },
-            add_count() {
-                console.log(event);  // 没有参数传递可以使用event,如果有参数传递,event也需要传递
-                this.num++;
+            add_count(index) {
+  // 没有参数传递可以使用event,如果有参数传递,event也需要传递
+                this.num[index] += 1;
             },
-            del(th) {
+
+            del(th, index) {
                 // th.parentNode.parentNode.remove();
-                this.num = 0;
-                this.is_show = false
+                this.num[index] = 0;
+                // this.is_show = false
             }
 
         }

@@ -12,7 +12,7 @@
     <p>数字为:{{number * 29}}</p>
     <p>用户名:{{user.username}}, 密码:{{user.password}}</p>
     <ul v-for="(value,index) in arr">
-        <li style="list-style-type: none">{{index+1}}: {{value}}</li>
+        <li style="list-style-type: none" @click="dian">{{index+1}}: {{value}}</li>
     </ul>
 
     <!--  遍历对象  -->
@@ -24,6 +24,7 @@
     <ul v-for="(value, index) in users" :key="index">
         <li>{{index+1}}: {{value.username}}: {{value.password}}</li>
     </ul>
+
 </div>
 
 
@@ -39,9 +40,13 @@
             arr: ["北京", "广州", "上海", "成都"],
             // 数组中包含对象
             users: [{"username": "aka", 'password': "1515"},{"username": "hero", password: "231123"}]
-
-
         },
+        methods: {
+            dian(){
+                console.log(this.arr[1])
+            }
+
+        }
 
     })
 </script>
