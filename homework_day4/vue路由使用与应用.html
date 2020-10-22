@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue路由使用与应用</title>
+</head>
+<body>
+
+<div id="app">
+    <h1>主页</h1>
+    <hr>
+    <router-link to="/first">first</router-link>
+    <router-link to="/second">second</router-link>
+    <br>
+    <p>指定路由:</p>
+    <router-view></router-view>
+
+
+</div>
+
+<script src="js/vue.js"></script>
+<!--依赖于vue.js才可以使用-->
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script>
+
+    let first = {
+        template: `
+        <div>first vue路由</div>
+
+        `
+    };
+
+    let second = {
+        template: `
+            <div> second vue路由</div>
+
+        `
+    };
+
+    let myRouter = new VueRouter({
+        routes: [
+            // path指的是访问组件的地址  component代表这个地址对应的组件  一一对应
+            {path: "/first", component: first},
+            {path: "/second", component: second},
+            // {path: "/", component: first}
+        ]
+    })
+
+    new Vue({
+        el: "#app",
+        data: {},
+        // 注入定义好的vue路由
+        // 通过router配置参数注入,从而整个vue实例都拥有路由功能
+        router: myRouter
+    })
+</script>
+
+</body>
+</html>
+
+

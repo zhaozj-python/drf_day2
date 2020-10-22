@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue路由表单应用</title>
+</head>
+<body>
+
+<div id="app">
+    <hr>
+    <router-link to="/first">首页欢迎页面</router-link>
+    <router-link to="/second">购物车页面</router-link>
+    <router-link to="/not_found">404</router-link>
+
+    <hr>
+    <router-view></router-view>
+
+
+</div>
+
+<script src="js/vue.js"></script>
+<!--依赖于vue.js才可以使用-->
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script>
+
+    let first = {
+        template: `
+        <div>
+        <span style="font-size: 50px; color: red">欢迎来购物</span>
+        <span>这是欢迎页面</span>
+</div>
+        `
+    };
+
+    let second = {
+        template: `
+        <div>
+    <span style="font-size: 50px; color: red">购物车页面</span>
+        <table  style="border: solid red 2px">
+        <tr>
+        <td>商品id</td>
+        <td>商品名</td>
+        <td>价格</td>
+        <td>数量</td>
+        <td>操作</td>
+        </tr>
+        <tr v-for="thing in things" :key="thing.id">
+        <td>{{thing.id}}</td>
+        <td>{{thing.name}}</td>
+        <td>{{thing.price}}</td>
+        <td>{{thing.count}}</td>
+        <td><a href="javascript:;">删除</a></td>
+</tr>
+        </table>
+
+</div>
+
+        `,
+        data(){
+            return{
+                things:[
+                    {"id": 1, name:"方便面", "price": "5", "count": "3"},
+                    {"id": 2, name:"鸡蛋", "price": "3", "count": "4"},
+                    {"id": 3, name:"香肠", "price": "2", "count": "5"},
+                ]
+            }
+        }
+    };
+
+    let not_found = {
+        template:`
+        <div>
+
+        <span style="font-size: 100px; text-align: center">404 not found</span>
+        <hr>
+</div>
+        `
+    }
+
+    let myRouter = new VueRouter({
+        routes: [
+            // path指的是访问组件的地址  component代表这个地址对应的组件  一一对应
+            {path: "/first", component: first},
+            {path: "/second", component: second},
+            {path: "/", component: first},
+            {path:"/*", component: not_found}
+        ]
+    })
+
+    new Vue({
+        el: "#app",
+        data: {},
+        // 注入定义好的vue路由
+        // 通过router配置参数注入,从而整个vue实例都拥有路由功能
+        router: myRouter
+    })
+</script>
+
+</body>
+</html>
