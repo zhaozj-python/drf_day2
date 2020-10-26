@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>状态机的练习</title>
+</head>
+<body>
+
+<div id="app">
+    <first></first>
+    <hr>
+    <second></second>
+</div>
+
+<script src="js/vue.js"></script>
+<!--依赖于vue.js才可以使用-->
+<script src="js/vuex.3.0.1.js"></script>
+<script>
+
+    let first = {
+        template: `
+        <div>
+          这是first组件
+          <button @click="add">点击数字增加</button>
+          </div>
+        `,
+        methods: {
+            add() {
+                this.$store.commit("change")
+            }
+        }
+    };
+
+    let second = {
+        template: `
+        <div>这是second组件
+        <span style="font-size: large">点击first组件变化数字{{$store.state.number}}</span>
+        </div>
+
+        `
+    };
+    let myStore = new Vuex.Store({
+        state: {
+            number: 15,
+        },
+        mutations: {
+            change: function (state) {
+                if (state.number < 20) {
+                    state.number++;
+                }else{
+                    alert("超值了!")
+                }
+
+            }
+        }
+    })
+
+    // let myRouter = new VueRouter({
+    //     routes: [
+    //         // path指的是访问组件的地址  component代表这个地址对应的组件  一一对应
+    //         {path: "/first", component: first},
+    //         {path: "/second", component: second},
+    //         {path: "/", component: first}
+    //     ]
+    // })
+
+    new Vue({
+        el: "#app",
+        data: {},
+        components:{
+            first: first,
+            second: second
+        },
+        store: myStore
+    })
+</script>
+
+</body>
+</html>

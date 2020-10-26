@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>状态机的练习</title>
+</head>
+<body>
+
+<div id="app">
+    <first></first>
+    <hr>
+    <second></second>
+</div>
+
+<script src="js/vue.js"></script>
+<!--依赖于vue.js才可以使用-->
+<script src="js/vuex.3.0.1.js"></script>
+<script>
+
+    let first = {
+        template: `
+        <div>
+          这是first组件
+          <button @click="change">点击更改用户名与简介</button>
+          </div>
+        `,
+        methods: {
+            change() {
+                this.$store.commit("change_user",{username:"kuro",comment:"我是小黑"})
+            }
+        }
+    };
+
+    let second = {
+        template: `
+        <div style="font-size: large; color: red">这是second组件
+        <span style="font-size: large">点击first组件变化用户名与简介 <br>{{$store.state.user}}</span>
+        </div>
+        `
+    };
+    let myStore = new Vuex.Store({
+        state: {
+            user:{
+                username: "super hero",
+                comment: "超级小白"
+            }
+        },
+        mutations: {
+            change_user: function (state, user) {
+                console.log(state, user);
+                if(state.user.username === "super hero"){
+                    state.user.username = user.username
+                    state.user.comment = user.comment
+                }else{
+                    state.user.username = "super hero";
+                    state.user.comment = "超级小白"
+                }
+
+
+            }
+        }
+    })
+
+
+    new Vue({
+        el: "#app",
+        data: {},
+        components:{
+            first: first,
+            second: second
+        },
+        store: myStore
+    })
+</script>
+
+</body>
+</html>
