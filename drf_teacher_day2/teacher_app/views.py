@@ -35,7 +35,7 @@ class TeacherAPIView(APIView):
                 "message": "出错了,请尽快处理!"
             })
         post_serializer = TeacherDeSerializer(data=request_data)
-        print(post_serializer)
+        # print(post_serializer)
         if post_serializer.is_valid():
             add_teacher = post_serializer.save()
             return Response({
@@ -49,4 +49,22 @@ class TeacherAPIView(APIView):
                 "message": "教师添加失败",
                 # 保存失败的信息会包含在 .errors中
                 "results": post_serializer.errors
+            })
+
+    def delete(self, request, *args, **kwargs):
+        teacher_id = kwargs.get("id")
+        if teacher_id:
+            user_del = Teacher.objects.get(id=teacher_id)
+            choose_teacher = TeacherSerializer(user_del).data
+            teacher_name = choose_teacher.get("username")
+            user_del.delete()
+            return Response({
+                "status": 200,
+                "message": "删除单个用户成功",
+                "results": "删除用户id为" + teacher_name
+            })
+        else:
+            return Response({
+                "status": 400,
+                "message": "删除失败",
             })
