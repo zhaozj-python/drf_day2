@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.conf import settings
 
 # Create your models here.
 class Teacher(models.Model):
@@ -23,3 +23,9 @@ class Teacher(models.Model):
 
     def __str__(self):
         return self.username
+
+    def grade(self):
+        return "特级教师"
+
+    def pic_full(self):
+        return "%s%s%s" % ("http://127.0.0.1:8000/", settings.MEDIA_URL, self.pic)

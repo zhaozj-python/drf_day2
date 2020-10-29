@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 # Create your views here.
 from teacher_app.models import Teacher
-from teacher_app.serializers import TeacherSerializer, TeacherDeSerializer
+from teacher_app.serializers import TeacherSerializer, TeacherDeSerializer, TeacherModelSerializer
 
 
 class TeacherAPIView(APIView):
@@ -12,7 +12,7 @@ class TeacherAPIView(APIView):
         teacher_id = kwargs.get("id")
         if teacher_id:
             teacher_obj = Teacher.objects.get(pk=teacher_id)
-            choose_teacher = TeacherSerializer(teacher_obj).data
+            choose_teacher = TeacherModelSerializer(teacher_obj).data
             return Response({
                 "status": 200,
                 "message": "查询单个教师成功",
@@ -20,7 +20,7 @@ class TeacherAPIView(APIView):
             })
         else:
             all_the_teachers = Teacher.objects.all()
-            all_teachers = TeacherSerializer(all_the_teachers, many=True).data
+            all_teachers = TeacherModelSerializer(all_the_teachers, many=True).data
             return Response({
                 "status": 200,
                 "message": "查询全体教师成功",
@@ -41,7 +41,7 @@ class TeacherAPIView(APIView):
             return Response({
                 "status": 200,
                 "message": "教师添加成功",
-                "results": TeacherSerializer(add_teacher).data
+                "results": TeacherModelSerializer(add_teacher).data
             })
         else:
             return Response({
@@ -54,8 +54,15 @@ class TeacherAPIView(APIView):
     def delete(self, request, *args, **kwargs):
         teacher_id = kwargs.get("id")
         if teacher_id:
-            user_del = Teacher.objects.get(id=teacher_id)
-            choose_teacher = TeacherSerializer(user_del).data
+            try:
+                user_del = Teacher.objects.get(id=teacher_id)
+            except Teacher.DoesNotExist:
+                return Response({
+                    "status": 400,
+                    "message": '教师不存在'
+                })
+
+            choose_teacher = TeacherModelSerializer(user_del).data
             teacher_name = choose_teacher.get("username")
             user_del.delete()
             return Response({
@@ -68,3 +75,60 @@ class TeacherAPIView(APIView):
                 "status": 400,
                 "message": "删除失败",
             })
+
+    def put(self, request, *args, **kwargs):
+        # 整体修改单个: 修改一个对象的全部字段
+        request_data = request.data
+        teacher_id = kwargs.get("id")
+        try:
+            teacher_obj = Teacher.objects.get(pk=teacher_id)
+        except Teacher.DoesNotExist:
+            return Response({
+                "status": 400,
+                "message": '教师不存在'
+            })
+        put_serializer = TeacherModelSerializer(data=request_data, instance=teacher_obj)
+        if put_serializer.is_valid():
+            modify_teacher = put_serializer.save()
+            return Response({
+                "status": 200,
+                "message": "修改单个教师全部字段成功",
+                "results": TeacherModelSerializer(modify_teacher).data
+            })
+        else:
+            return Response({
+                "status": 400,
+                "message": "修改单个教师全部字段失败",
+                # 保存失败的信息会包含在 .errors中
+                "results": put_serializer.errors
+            })
+
+
+    def patch(self, request, *args, **kwargs):
+        # 整体修改单个: 修改一个对象的全部字段
+        request_data = request.data
+        teacher_id = kwargs.get("id")
+        try:
+            teacher_obj = Teacher.objects.get(pk=teacher_id)
+        except Teacher.DoesNotExist:
+            return Response({
+                "status": 400,
+                "message": '教师不存在'
+            })
+        put_serializer = TeacherModelSerializer(data=request_data, instance=teacher_obj, partial=True)
+        if put_serializer.is_valid():
+            modify_teacher = put_serializer.save()
+            return Response({
+                "status": 200,
+                "message": "修改单个教师部分字段成功",
+                "results": TeacherModelSerializer(modify_teacher).data
+            })
+        else:
+            return Response({
+                "status": 400,
+                "message": "修改单个教师部分字段失败",
+                # 保存失败的信息会包含在 .errors中
+                "results": put_serializer.errors
+            })
+
+

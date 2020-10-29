@@ -125,3 +125,25 @@ STATIC_URL = '/static/'
 # 静态资源目录
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 MEDIA_URL = "media/"
+
+
+# DRF的全局配置
+REST_FRAMEWORK = {
+    # DRF渲染器默认配置
+    # 'DEFAULT_RENDERER_CLASSES': [
+    #     # json格式的渲染器
+    #     'rest_framework.renderers.JSONRenderer',
+    #     # # 浏览器渲染
+    #     'rest_framework.renderers.BrowsableAPIRenderer',
+    #     # 'rest_framework.renderers.TemplateHTMLRenderer',
+    # ],
+    # # DRF默认的解析器的配置
+    # 'DEFAULT_PARSER_CLASSES': [
+    #     'rest_framework.parsers.JSONParser',  # 解析json数据
+    #     'rest_framework.parsers.FormParser',  # 解析不带文件的form数据
+    #     'rest_framework.parsers.MultiPartParser'  # 解析带文件的form数据
+    # ],
+
+    # DRF配置的全局异常处理的方法
+    'EXCEPTION_HANDLER': 'teacher_app.exceptions.exception_handler',
+}

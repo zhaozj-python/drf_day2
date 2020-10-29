@@ -1,5 +1,5 @@
 from django.conf import settings
-from rest_framework import serializers
+from rest_framework import serializers, exceptions
 from teacher_app.models import Teacher
 
 
@@ -33,8 +33,61 @@ class TeacherDeSerializer(serializers.Serializer):
     phone = serializers.CharField()
     # classes = serializers.CharField()
     # gender = serializers.IntegerField()
+    re_pwd = serializers.CharField()
+
+    def validate(self, attrs):
+        pwd = attrs.get("password")
+        re_pwd = attrs.pop("re_pwd")
+        if pwd != re_pwd:
+            raise exceptions.ValidationError("密码不一致")
+        return attrs
 
     def create(self, validated_data):
         # print(self)
         # print(validated_data)
         return Teacher.objects.create(**validated_data)
+
+
+class TeacherModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        fields = ("username", "password", "gender", "classes", "phone", "grade", "pic_full")
+
+        extra_kwargs = {
+            "username": {
+                "required": True,  # 必填字段
+                "min_length": 2,  # 最小长度
+                "max_length": 10,
+                "error_messages": {
+                    "required": "用户名必须提供",
+                    "min_length": "用户名不能少于两个字符",
+                    "max_length": "用户名不能多于十个字符",
+                }
+            },
+            # "re_pwd": {
+            #     "write_only": True
+            # },
+            "password": {
+                "write_only": True
+            },
+            "gender": {
+                "read_only": True
+            },
+            "classes": {
+                "read_only": True
+            },
+            "grade": {
+                "read_only": True
+            },
+            "pic_full": {
+                "read_only": True
+            }
+
+        }
+
+        # def validate(self, attrs):
+        #     pwd = attrs.get("password")
+        #     re_pwd = attrs.pop("re_pwd")
+        #     if pwd != re_pwd:
+        #         raise exceptions.ValidationError("密码不一致")
+        #     return attrs

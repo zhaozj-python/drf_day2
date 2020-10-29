@@ -12,7 +12,7 @@ def exception_handler(exc, context):
 
     # 如果返回值为None 代表DRF无法处理此异常 需要自定义处理
     if response is None:
-        return Response({"error_message": "上帝请稍等,程序猿正在加紧处理中~"},
+        return Response({"error_message": "正在加紧处理中~"},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     # 如果response不为空  说明异常已经被处理了
