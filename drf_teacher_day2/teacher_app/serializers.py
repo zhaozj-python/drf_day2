@@ -91,3 +91,35 @@ class TeacherModelSerializer(serializers.ModelSerializer):
         #     if pwd != re_pwd:
         #         raise exceptions.ValidationError("密码不一致")
         #     return attrs
+
+
+class UserModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        fields = ("username", "password")
+
+        extra_kwargs = {
+            "username": {
+                "required": True,  # 必填字段
+                "min_length": 2,  # 最小长度
+                "max_length": 10,
+                "error_messages": {
+                    "required": "用户名必须提供",
+                    "min_length": "用户名不能少于两个字符",
+                    "max_length": "用户名不能多于十个字符",
+                }
+            },
+            "password": {
+                "write_only": True
+            },
+            # "re_pwd": {
+            #     "write_only": True
+            # },
+        }
+
+        # def validate(self, attrs):
+        #     pwd = attrs.get("password")
+        #     re_pwd = attrs.pop("re_pwd")
+        #     if pwd != re_pwd:
+        #         raise exceptions.ValidationError("密码不一致")
+        #     return attrs

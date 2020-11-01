@@ -6,8 +6,8 @@ from rest_framework import mixins
 from rest_framework import generics
 from rest_framework import viewsets
 # Create your views here.
-from teacher_app.models import Teacher
-from teacher_app.serializers import TeacherSerializer, TeacherDeSerializer, TeacherModelSerializer
+from teacher_app.models import Teacher, TUser
+from teacher_app.serializers import TeacherSerializer, TeacherDeSerializer, TeacherModelSerializer, UserModelSerializer
 
 
 class TeacherAPIView(APIView):
@@ -107,7 +107,6 @@ class TeacherAPIView(APIView):
                 "results": put_serializer.errors
             })
 
-
     def patch(self, request, *args, **kwargs):
         # 整体修改单个: 修改一个对象的全部字段
         request_data = request.data
@@ -137,11 +136,11 @@ class TeacherAPIView(APIView):
 
 
 class TeacherGenericAPIView(GenericAPIView,
-                         mixins.ListModelMixin,
-                         mixins.RetrieveModelMixin,
-                         mixins.DestroyModelMixin,
-                         mixins.CreateModelMixin,
-                         mixins.UpdateModelMixin):
+                            mixins.ListModelMixin,
+                            mixins.RetrieveModelMixin,
+                            mixins.DestroyModelMixin,
+                            mixins.CreateModelMixin,
+                            mixins.UpdateModelMixin):
     queryset = Teacher.objects.filter()
     serializer_class = TeacherModelSerializer
 
@@ -164,3 +163,43 @@ class TeacherGenericAPIView(GenericAPIView,
 
     # def patch(self, request, *args, **kwargs):
     #     return self.
+
+
+class UserViewSetView(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin):
+    queryset = TUser.objects.all()
+    serializer_class = UserModelSerializer
+
+    def user_login(self, request, *args, **kwargs):
+        # 可以在此完成登录的逻辑
+        request_data = request.data
+        res = TUser.objects.filter(username=request_data.get("username"), password=request_data.get("password"))
+        if res:
+            return Response("登录成功")
+        print(request_data)
+        return Response("登录失败,用户名或密码错误")
+
+    def get_user_count(self, request, *args, **kwargs):
+        # 完成获取用户数量的逻辑
+        print("查询成功")
+        return self.list(request, *args, **kwargs)
+
+
+class UserREGViewSetView(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin):
+    queryset = TUser.objects.all()
+    serializer_class = UserModelSerializer
+
+    def user_register(self, request, *args, **kwargs):
+        # 可以在此完成登录的逻辑
+        request_data = request.data
+        res = TUser.objects.filter(username=request_data.get("username"))
+        if res:
+            return Response("注册失败,用户名已存在")
+        else:
+            self.create(request, *args, **kwargs)
+        print(request_data)
+        return Response("注册成功")
+
+    def get_user_count(self, request, *args, **kwargs):
+        # 完成获取用户数量的逻辑
+        print("查询成功")
+        return self.list(request, *args, **kwargs)

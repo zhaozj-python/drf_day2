@@ -29,3 +29,11 @@ class Teacher(models.Model):
 
     def pic_full(self):
         return "%s%s%s" % ("http://127.0.0.1:8000/", settings.MEDIA_URL, self.pic)
+
+
+class TUser(models.Model):
+    username = models.CharField(max_length=20, blank=True, null=True)
+    password = models.CharField(max_length=20, blank=True, null=True)
+
+    class Meta:
+        db_table = 't_user'
