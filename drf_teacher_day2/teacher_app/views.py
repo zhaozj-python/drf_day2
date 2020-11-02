@@ -8,7 +8,9 @@ from rest_framework import viewsets
 # Create your views here.
 from teacher_app.models import Teacher, TUser
 from teacher_app.serializers import TeacherSerializer, TeacherDeSerializer, TeacherModelSerializer, UserModelSerializer
-
+from teacher_app.authentications import MyAuth
+from teacher_app.permission import MyPermission
+from teacher_app.throttle import SendMessageRate
 
 class TeacherAPIView(APIView):
 
@@ -203,3 +205,18 @@ class UserREGViewSetView(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.
         # 完成获取用户数量的逻辑
         print("查询成功")
         return self.list(request, *args, **kwargs)
+
+
+class UserAPIView(APIView):
+    # authentication_classes = [MyAuth]
+    # permission_classes = [MyPermission]
+
+    throttle_classes = [SendMessageRate]
+
+    def get(self, request, *args, **kwargs):
+        print("读请求")
+        return Response("读请求")
+
+    def post(self, request, *args, **kwargs):
+        print("写请求")
+        return Response("写请求")

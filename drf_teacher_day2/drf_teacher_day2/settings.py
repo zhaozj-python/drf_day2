@@ -127,9 +127,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 MEDIA_URL = "media/"
 
 
-# DRF的全局配置
+# 配置django默认的用户表  “app名字.模型名”
+AUTH_USER_MODEL = "teacher_app.User"
+
 REST_FRAMEWORK = {
-    # DRF渲染器默认配置
+# DRF渲染器默认配置
     # 'DEFAULT_RENDERER_CLASSES': [
     #     # json格式的渲染器
     #     'rest_framework.renderers.JSONRenderer',
@@ -146,4 +148,27 @@ REST_FRAMEWORK = {
 
     # DRF配置的全局异常处理的方法
     'EXCEPTION_HANDLER': 'teacher_app.exceptions.exception_handler',
+
+    # DRF默认的权限认证类
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 默认的认证器
+        'rest_framework.authentication.SessionAuthentication',  # 基于session
+        'rest_framework.authentication.BasicAuthentication',  # Basic
+        # 'api.authentications.MyAuth',
+    ],
+    # DRF默认的权限配置
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+
+    # DRF频率配置
+    'DEFAULT_THROTTLE_CLASSES': [
+        # 'rest_framework.throttling.UserRateThrottle',
+        # 'api.throttle.SendMessageRate',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'Anan': '3/m',
+        'user': '10/day',
+        'send': '1/m',
+    }
 }
