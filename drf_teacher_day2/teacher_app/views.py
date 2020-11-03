@@ -208,8 +208,8 @@ class UserREGViewSetView(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.
 
 
 class UserAPIView(APIView):
-    # authentication_classes = [MyAuth]
-    # permission_classes = [MyPermission]
+    authentication_classes = [MyAuth]
+    permission_classes = [MyPermission]
 
     throttle_classes = [SendMessageRate]
 
